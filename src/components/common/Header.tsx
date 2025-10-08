@@ -141,7 +141,7 @@ export default function Header() {
                         <NavLink to="/shop" className="hover:text-blue-600">Shop</NavLink>
                         <NavLink to="/wishlist" className="hover:text-blue-600">Wishlist</NavLink>
                         <NavLink to="/cart" className="hover:text-blue-600">Cart</NavLink>
-                        <NavLink to="/login" className="hover:text-blue-600">Account</NavLink>
+                        <NavLink to="/user/profile" className="hover:text-blue-600">Account</NavLink>
                     </nav>
                 </div>
             )}
