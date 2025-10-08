@@ -1,0 +1,13 @@
+.collection-card{
+    position: relative;
+}
+
+.collection-card .collection-text{
+    position: absolute;
+    z-index: 1;
+    left: 40px;
+}
+
+.collection-text h3{
+    font-size: 36px;
+}

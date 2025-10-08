@@ -1,0 +1,38 @@
+.feature-deal{
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    width: 40%;
+}
+
+.feature-deal h3{
+    font-size: 36px;
+}
+
+.deal-card{
+    position: relative;
+}
+
+.deal-card .text{
+    position: absolute;
+    width: 60%;
+    z-index: 1;
+}
+
+.deal-card .text h4{
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.deal-card .round{
+    width: 120px;
+    height: 120px;
+    background: #e2e2e27e;
+    position: absolute;
+    right: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

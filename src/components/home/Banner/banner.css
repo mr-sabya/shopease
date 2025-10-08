@@ -1,0 +1,32 @@
+/* Default navigation arrows */
+.swiper-button-next,
+.swiper-button-prev {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 0.5rem;
+    border-radius: 9999px;
+    /* fully rounded */
+   
+}
+
+/* Hover effect */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Pagination bullets */
+.swiper-pagination-bullet {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Active bullet */
+.swiper-pagination-bullet-active {
+    background-color: #2563eb;
+    /* Tailwind blue-600 */
+}
+
+/*  */
+.banner .banner-item h2{
+    font-size: 55px;
+}
