@@ -1,0 +1,83 @@
+body {
+    background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+    /* Gradient background */
+    min-height: 100vh;
+    /* Ensure it covers full height */
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Modern font */
+}
+
+.login-container {
+    min-height: 100vh;
+}
+
+.login-card {
+    background-color: #fff;
+    max-width: 450px;
+    /* Max width for the card */
+    width: 90%;
+    /* Responsive width */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    /* Softer shadow */
+    border-radius: 15px;
+    /* More rounded corners */
+}
+
+.login-logo {
+    color: #6a11cb;
+    /* Primary color for logo */
+    font-size: 3.5rem !important;
+    /* Larger logo */
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    /* Light background for icon */
+    border-right: none;
+    color: #6c757d;
+    /* Icon color */
+    border-color: #dee2e6;
+}
+
+.form-control {
+    border-left: none;
+    height: calc(2.5rem + 2px);
+    /* Slightly taller inputs */
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
+    /* Custom focus glow */
+    border-color: #6a11cb;
+}
+
+.btn-primary {
+    background-color: #6a11cb;
+    /* Custom primary button color */
+    border-color: #6a11cb;
+    font-weight: bold;
+    padding: 10px 0;
+    font-size: 1.1rem;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #5a0eb5;
+    /* Darker on hover */
+    border-color: #5a0eb5;
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.5);
+    /* Custom focus glow for button */
+}
+
+a {
+    color: #6a11cb;
+    /* Custom link color */
+}
+
+a:hover {
+    color: #5a0eb5;
+}
