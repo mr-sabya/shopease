@@ -1,3 +1,5 @@
+// src/components/Footer.tsx
+import { Link } from "react-router-dom"; // Import Link
 import Logo from "/logo.svg"; // replace with your logo path
 
 export default function Footer() {
@@ -19,16 +21,16 @@ export default function Footer() {
                         <h3 className="text-white font-semibold mb-4">Quick Links</h3>
                         <ul className="space-y-2 text-gray-400">
                             <li>
-                                <a href="/" className="hover:text-white transition-colors">Home</a>
+                                <Link to="/" className="hover:text-white transition-colors">Home</Link>
                             </li>
                             <li>
-                                <a href="/about" className="hover:text-white transition-colors">About Us</a>
+                                <Link to="/about" className="hover:text-white transition-colors">About Us</Link>
                             </li>
                             <li>
-                                <a href="/services" className="hover:text-white transition-colors">Services</a>
+                                <Link to="/services" className="hover:text-white transition-colors">Services</Link>
                             </li>
                             <li>
-                                <a href="/contact" className="hover:text-white transition-colors">Contact</a>
+                                <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
                             </li>
                         </ul>
                     </div>
@@ -38,16 +40,16 @@ export default function Footer() {
                         <h3 className="text-white font-semibold mb-4">Resources</h3>
                         <ul className="space-y-2 text-gray-400">
                             <li>
-                                <a href="/blog" className="hover:text-white transition-colors">Blog</a>
+                                <Link to="/blog" className="hover:text-white transition-colors">Blog</Link>
                             </li>
                             <li>
-                                <a href="/faq" className="hover:text-white transition-colors">FAQ</a>
+                                <Link to="/faq" className="hover:text-white transition-colors">FAQ</Link>
                             </li>
                             <li>
-                                <a href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a>
+                                <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
                             </li>
                             <li>
-                                <a href="/terms" className="hover:text-white transition-colors">Terms of Service</a>
+                                <Link to="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link> {/* Corrected path as per our previous setup */}
                             </li>
                         </ul>
                     </div>
@@ -81,7 +83,7 @@ export default function Footer() {
                 {/* Copyright */}
                 <div className="text-center text-gray-500 text-sm py-6">
                     &copy; {new Date().getFullYear()} Your Company. All rights reserved. <br />
-                    Developed by <a href="https://yourwebsite.com" className="hover:text-white">Your Name/Team</a>
+                    Developed by <a href="https://yourwebsite.com" target="_blank" rel="noopener noreferrer" className="hover:text-white">Your Name/Team</a> {/* External link, so <a> is appropriate here */}
                 </div>
             </div>
         </footer>
