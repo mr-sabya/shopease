@@ -1,10 +1,5 @@
-<div>
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Product Categories</h3>
-        <a href="{{ route('categories.create') }}" wire:navigate class="btn btn-primary" >
-            <i class="fas fa-plus"></i> Add New Category
-        </a>
-    </div>
+<div class="py-4">
+    <h2 class="mb-4">Category Management</h2>
 
     @if (session()->has('message'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -21,6 +16,12 @@
     @endif
 
     <div class="card shadow-sm mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Category List</h5>
+            <a href="{{ route('categories.create') }}" wire:navigate class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add New Category
+            </a>
+        </div>
         <div class="card-body">
             <div class="row align-items-center mb-3">
                 <div class="col-md-6 col-lg-4"> {{-- Adjust column size as needed, e.g., col-lg-3 for smaller search --}}
@@ -40,7 +41,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-striped table-bordered mb-0">
                     <thead>
                         <tr>
                             <th wire:click="sortBy('name')" style="cursor: pointer;">

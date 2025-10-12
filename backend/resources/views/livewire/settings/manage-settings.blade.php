@@ -1,128 +1,129 @@
-<div>
-    <div class="container-fluid">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3>Website Settings</h3>
+<div class="py-4">
+    <h2 class="mb-4">Setting Management</h2>
+
+
+    @if (session()->has('message'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('message') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Setting List</h5>
             <button class="btn btn-primary" wire:click="createSetting">
-                <i class="fas fa-plus"></i> Add New Setting
+                <i class="fas fa-plus"></i> Add New Brand
             </button>
         </div>
-
-        @if (session()->has('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
-
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Search settings..." wire:model.live.debounce.300ms="search">
-                    </div>
-                    <div class="col-md-2">
-                        <select wire:model.live="perPage" class="form-select">
-                            <option value="5">5 per page</option>
-                            <option value="10">10 per page</option>
-                            <option value="25">25 per page</option>
-                            <option value="50">50 per page</option>
-                        </select>
-                    </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="Search settings..." wire:model.live.debounce.300ms="search">
                 </div>
-
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped">
-                        <thead>
-                            <tr>
-                                {{-- Display Display Name instead of raw Key --}}
-                                <th wire:click="sortBy('label')" style="cursor: pointer;">
-                                    Setting Name {{-- Changed from 'Key' to 'Setting Name' --}}
-                                    @if ($sortField == 'label') {{-- Sort by label --}}
-                                    <i class="fas fa-{{ $sortDirection == 'asc' ? 'sort-up' : 'sort-down' }}"></i>
-                                    @endif
-                                </th>
-                                <th>Value</th>
-                                <th wire:click="sortBy('type')" style="cursor: pointer;">
-                                    Type
-                                    @if ($sortField == 'type')
-                                    <i class="fas fa-{{ $sortDirection == 'asc' ? 'sort-up' : 'sort-down' }}"></i>
-                                    @endif
-                                </th>
-                                <th wire:click="sortBy('group')" style="cursor: pointer;">
-                                    Group
-                                    @if ($sortField == 'group')
-                                    <i class="fas fa-{{ $sortDirection == 'asc' ? 'sort-up' : 'sort-down' }}"></i>
-                                    @endif
-                                </th>
-                                <th>Description</th>
-                                <th wire:click="sortBy('is_private')" style="cursor: pointer;">
-                                    Private
-                                    @if ($sortField == 'is_private')
-                                    <i class="fas fa-{{ $sortDirection == 'asc' ? 'sort-up' : 'sort-down' }}"></i>
-                                    @endif
-                                </th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($settings as $setting)
-                            <tr>
-                                <td>
-                                    <strong>{{ $setting->display_name }}</strong>
-                                    <br><small class="text-muted">{{ $setting->key }}</small>
-                                </td>
-                                <td>
-                                    @if ($setting->is_private)
-                                    <span class="text-muted">********</span>
-                                    @elseif ($setting->type == \App\Enums\SettingType::Boolean)
-                                    <span class="badge {{ $setting->value ? 'bg-success' : 'bg-danger' }}">
-                                        {{ $setting->value ? 'Yes' : 'No' }}
-                                    </span>
-                                    @elseif ($setting->type == \App\Enums\SettingType::Image && $setting->value)
-                                    <img src="{{ asset('storage/' . $setting->value) }}" alt="Setting Image" style="max-width: 50px; max-height: 50px;">
-                                    @elseif ($setting->type == \App\Enums\SettingType::Color && $setting->value)
-                                    <span style="display:inline-block; width:20px; height:20px; background-color:{{ $setting->value }}; border:1px solid #ccc; vertical-align: middle;"></span>
-                                    {{ $setting->value }}
-                                    @elseif ($setting->type == \App\Enums\SettingType::Json)
-                                    <pre class="mb-0 small bg-light p-1 rounded" style="max-height: 80px; overflow-y: auto;">{{ json_encode($setting->value, JSON_PRETTY_PRINT) }}</pre>
-                                    @else
-                                    <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                        {{ $setting->value }}
-                                    </span>
-                                    @endif
-                                </td>
-                                <td><span class="badge bg-secondary">{{ $setting->type->label() }}</span></td>
-                                <td>{{ $setting->group ?? '-' }}</td>
-                                <td>
-                                    <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                        {{ $setting->description ?? '-' }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <i class="fas {{ $setting->is_private ? 'fa-check-circle text-success' : 'fa-times-circle text-danger' }}"></i>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-info" wire:click="editSetting({{ $setting->id }})" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-danger" onclick="confirm('Are you sure you want to delete this setting?') || event.stopImmediatePropagation()" wire:click="deleteSetting({{ $setting->id }})" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="7" class="text-center">No settings found.</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                <div class="col-md-2">
+                    <select wire:model.live="perPage" class="form-select">
+                        <option value="5">5 per page</option>
+                        <option value="10">10 per page</option>
+                        <option value="25">25 per page</option>
+                        <option value="50">50 per page</option>
+                    </select>
                 </div>
-
-                {{ $settings->links('pagination::bootstrap-5') }}
             </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            {{-- Display Display Name instead of raw Key --}}
+                            <th wire:click="sortBy('label')" style="cursor: pointer;">
+                                Setting Name {{-- Changed from 'Key' to 'Setting Name' --}}
+                                @if ($sortField == 'label') {{-- Sort by label --}}
+                                <i class="fas fa-{{ $sortDirection == 'asc' ? 'sort-up' : 'sort-down' }}"></i>
+                                @endif
+                            </th>
+                            <th>Value</th>
+                            <th wire:click="sortBy('type')" style="cursor: pointer;">
+                                Type
+                                @if ($sortField == 'type')
+                                <i class="fas fa-{{ $sortDirection == 'asc' ? 'sort-up' : 'sort-down' }}"></i>
+                                @endif
+                            </th>
+                            <th wire:click="sortBy('group')" style="cursor: pointer;">
+                                Group
+                                @if ($sortField == 'group')
+                                <i class="fas fa-{{ $sortDirection == 'asc' ? 'sort-up' : 'sort-down' }}"></i>
+                                @endif
+                            </th>
+                            <th>Description</th>
+                            <th wire:click="sortBy('is_private')" style="cursor: pointer;">
+                                Private
+                                @if ($sortField == 'is_private')
+                                <i class="fas fa-{{ $sortDirection == 'asc' ? 'sort-up' : 'sort-down' }}"></i>
+                                @endif
+                            </th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($settings as $setting)
+                        <tr>
+                            <td>
+                                <strong>{{ $setting->display_name }}</strong>
+                                <br><small class="text-muted">{{ $setting->key }}</small>
+                            </td>
+                            <td>
+                                @if ($setting->is_private)
+                                <span class="text-muted">********</span>
+                                @elseif ($setting->type == \App\Enums\SettingType::Boolean)
+                                <span class="badge {{ $setting->value ? 'bg-success' : 'bg-danger' }}">
+                                    {{ $setting->value ? 'Yes' : 'No' }}
+                                </span>
+                                @elseif ($setting->type == \App\Enums\SettingType::Image && $setting->value)
+                                <img src="{{ asset('storage/' . $setting->value) }}" alt="Setting Image" style="max-width: 50px; max-height: 50px;">
+                                @elseif ($setting->type == \App\Enums\SettingType::Color && $setting->value)
+                                <span style="display:inline-block; width:20px; height:20px; background-color:{{ $setting->value }}; border:1px solid #ccc; vertical-align: middle;"></span>
+                                {{ $setting->value }}
+                                @elseif ($setting->type == \App\Enums\SettingType::Json)
+                                <pre class="mb-0 small bg-light p-1 rounded" style="max-height: 80px; overflow-y: auto;">{{ json_encode($setting->value, JSON_PRETTY_PRINT) }}</pre>
+                                @else
+                                <span class="d-inline-block text-truncate" style="max-width: 150px;">
+                                    {{ $setting->value }}
+                                </span>
+                                @endif
+                            </td>
+                            <td><span class="badge bg-secondary">{{ $setting->type->label() }}</span></td>
+                            <td>{{ $setting->group ?? '-' }}</td>
+                            <td>
+                                <span class="d-inline-block text-truncate" style="max-width: 150px;">
+                                    {{ $setting->description ?? '-' }}
+                                </span>
+                            </td>
+                            <td>
+                                <i class="fas {{ $setting->is_private ? 'fa-check-circle text-success' : 'fa-times-circle text-danger' }}"></i>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-info" wire:click="editSetting({{ $setting->id }})" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="confirm('Are you sure you want to delete this setting?') || event.stopImmediatePropagation()" wire:click="deleteSetting({{ $setting->id }})" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="7" class="text-center">No settings found.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            {{ $settings->links('pagination::bootstrap-5') }}
         </div>
     </div>
+
 
     <!-- Setting Create/Edit Modal -->
     <div class="modal fade {{ $showSettingModal ? 'show d-block' : '' }}" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="settingModalLabel" aria-hidden="{{ !$showSettingModal ? 'true' : 'false' }}" @if($showSettingModal) style="display: block;" @endif>

@@ -14,4 +14,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/categories', [App\Http\Controllers\HomeController::class, 'categories'])->name('categories.index');
     Route::get('/categories/create', [App\Http\Controllers\HomeController::class, 'addCategory'])->name('categories.create');
     Route::get('/categories/{category}/edit', [App\Http\Controllers\HomeController::class, 'editCategory'])->name('categories.edit');
+
+    // brands
+    Route::get('/brands', [App\Http\Controllers\HomeController::class, 'brands'])->name('brands.index');
 });

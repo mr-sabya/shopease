@@ -35,4 +35,11 @@ class HomeController extends Controller
     {
         return view('pages.categories.edit', compact('id'));
     }
+
+
+    // brands page
+    public function brands()
+    {
+        return view('pages.brand.index');
+    }
 }
