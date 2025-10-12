@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\SettingType; // We'll create this enum
+use Illuminate\Support\Str;
 
 class Setting extends Model
 {
@@ -12,6 +13,7 @@ class Setting extends Model
 
     protected $fillable = [
         'key',
+        'label',
         'value',
         'type',
         'description',
@@ -40,6 +42,15 @@ class Setting extends Model
             };
         }
         return $value; // Fallback if type is not set or not an enum instance
+    }
+
+    /**
+     * Accessor to get the display name for the setting.
+     * Falls back to humanizing the key if label is not set.
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        return $this->label ?? Str::title(str_replace('_', ' ', $this->key));
     }
 
     /**
@@ -105,11 +116,12 @@ class Setting extends Model
     /**
      * Set/Update a setting by its key.
      */
-    public static function set(string $key, $value, string $type = 'string', string $description = null, string $group = null, bool $isPrivate = false)
+    public static function set(string $key, $value, string $type = 'string', string $label = null, string $description = null, string $group = null, bool $isPrivate = false)
     {
         $setting = static::firstOrNew(['key' => $key]);
         $setting->value = $value; // The mutator will handle type casting before saving
         $setting->type = $type;
+        $setting->label = $label;
         if ($description) $setting->description = $description;
         if ($group) $setting->group = $group;
         $setting->is_private = $isPrivate;
