@@ -42,4 +42,22 @@ class HomeController extends Controller
     {
         return view('pages.brand.index');
     }
+
+    // coupons page
+    public function coupons()
+    {
+        return view('pages.coupon.index');
+    }
+
+    // create coupon
+    public function createCoupon()
+    {
+        return view('pages.coupon.create');
+    }
+
+    // tags page
+    public function tags()
+    {
+        return view('pages.tag.index');
+    }
 }

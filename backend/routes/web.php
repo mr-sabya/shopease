@@ -17,4 +17,11 @@ Route::middleware('auth:admin')->group(function () {
 
     // brands
     Route::get('/brands', [App\Http\Controllers\HomeController::class, 'brands'])->name('brands.index');
+
+    // coupons
+    Route::get('/coupons', [App\Http\Controllers\HomeController::class, 'coupons'])->name('coupons.index');
+    Route::get('/coupons/create', [App\Http\Controllers\HomeController::class, 'createCoupon'])->name('coupons.create');
+
+    // tags
+    Route::get('/tags', [App\Http\Controllers\HomeController::class, 'tags'])->name('tags.index');
 });
