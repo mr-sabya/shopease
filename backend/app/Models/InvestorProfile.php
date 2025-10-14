@@ -47,6 +47,22 @@ class InvestorProfile extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+
     /**
      * Define any relationships an investor might have, e.g., to investment opportunities.
      * For now, we'll leave this empty, but you might add:

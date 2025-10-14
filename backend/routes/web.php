@@ -47,4 +47,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/locations/countries', [App\Http\Controllers\LocationController::class, 'countries'])->name('locations.countries');
     Route::get('/locations/states', [App\Http\Controllers\LocationController::class, 'states'])->name('locations.states');
     Route::get('/locations/cities', [App\Http\Controllers\LocationController::class, 'cities'])->name('locations.cities');
+
+    // projects
+    Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects.index');
 });

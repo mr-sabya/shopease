@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Livewire\Investors; // New namespace
+namespace App\Livewire\Investors;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\User;
-use App\Models\InvestorProfile; // Use InvestorProfile model
+use App\Models\InvestorProfile;
+use App\Models\Country; // Import Country model
+use App\Models\State;   // Import State model
+use App\Models\City;    // Import City model
 use App\Enums\UserRole;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -26,7 +29,7 @@ class Manage extends Component
     public $avatar;
     public $currentAvatar;
     public $phone;
-    public $is_active = true; // For the User record
+    public $is_active = true;
 
     // Investor Profile related fields
     public $investorProfileId;
@@ -36,23 +39,33 @@ class Manage extends Component
     public $contact_person_name;
     public $contact_person_email;
     public $contact_person_phone;
-    public $address;
-    public $city;
-    public $state;
-    public $zip_code;
-    public $country;
+
+    // Location fields updated
+    public $address; // Kept as string for street address
+    public $zip_code; // Kept as string
+    public $country_id; // Foreign key
+    public $state_id;   // Foreign key
+    public $city_id;    // Foreign key
+
     public $min_investment_amount;
     public $max_investment_amount;
     public $notes;
-    public $is_approved = false; // For the Investor Profile record
+    public $is_approved = false;
 
     public $isEditing = false;
     public $pageTitle = 'Create New Investor Profile';
 
+    // Data for dropdowns
+    public $countries = [];
+    public $states = [];
+    public $cities = [];
+
     public function mount($investorProfileId = null)
     {
+        $this->countries = Country::orderBy('name')->get(); // Load all countries
+
         if ($investorProfileId) {
-            $investorProfile = InvestorProfile::with('user')->find($investorProfileId);
+            $investorProfile = InvestorProfile::with(['user', 'country', 'state', 'city'])->find($investorProfileId);
 
             if (!$investorProfile || $investorProfile->user->role !== UserRole::Investor) {
                 session()->flash('error', 'Investor Profile not found or user is not an investor.');
@@ -77,11 +90,22 @@ class Manage extends Component
             $this->contact_person_name = $investorProfile->contact_person_name;
             $this->contact_person_email = $investorProfile->contact_person_email;
             $this->contact_person_phone = $investorProfile->contact_person_phone;
+
+            // Load new location data
             $this->address = $investorProfile->address;
-            $this->city = $investorProfile->city;
-            $this->state = $investorProfile->state;
             $this->zip_code = $investorProfile->zip_code;
-            $this->country = $investorProfile->country;
+            $this->country_id = $investorProfile->country_id;
+            $this->state_id = $investorProfile->state_id;
+            $this->city_id = $investorProfile->city_id;
+
+            // Populate states and cities based on loaded data
+            if ($this->country_id) {
+                $this->states = State::where('country_id', $this->country_id)->orderBy('name')->get();
+            }
+            if ($this->state_id) {
+                $this->cities = City::where('state_id', $this->state_id)->orderBy('name')->get();
+            }
+
             $this->min_investment_amount = $investorProfile->min_investment_amount;
             $this->max_investment_amount = $investorProfile->max_investment_amount;
             $this->notes = $investorProfile->notes;
@@ -89,11 +113,25 @@ class Manage extends Component
 
             $this->pageTitle = 'Edit Investor Profile: ' . $this->company_name;
         } else {
-            // Default values for new investor
             $this->is_active = true;
             $this->is_approved = false;
             $this->pageTitle = 'Create New Investor Profile';
         }
+    }
+
+    // Dynamic loading of states and cities
+    public function updatedCountryId($value)
+    {
+        $this->state_id = null; // Reset state when country changes
+        $this->city_id = null; // Reset city when country changes
+        $this->states = $value ? State::where('country_id', $value)->orderBy('name')->get() : [];
+        $this->cities = []; // Clear cities
+    }
+
+    public function updatedStateId($value)
+    {
+        $this->city_id = null; // Reset city when state changes
+        $this->cities = $value ? City::where('state_id', $value)->orderBy('name')->get() : [];
     }
 
     protected function rules()
@@ -120,11 +158,14 @@ class Manage extends Component
             'contact_person_name' => 'nullable|string|max:255',
             'contact_person_email' => 'nullable|email|max:255',
             'contact_person_phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:100',
-            'state' => 'nullable|string|max:100',
-            'zip_code' => 'nullable|string|max:20',
-            'country' => 'nullable|string|max:100',
+
+            // Updated Location Validation
+            'address' => 'nullable|string|max:255', // Kept this as per your model
+            'zip_code' => 'nullable|string|max:20', // Kept this as per your model
+            'country_id' => 'nullable|exists:countries,id',
+            'state_id' => 'nullable|exists:states,id',
+            'city_id' => 'nullable|exists:cities,id',
+
             'min_investment_amount' => 'nullable|numeric|min:0',
             'max_investment_amount' => 'nullable|numeric|min:0|gte:min_investment_amount',
             'notes' => 'nullable|string',
@@ -138,9 +179,12 @@ class Manage extends Component
         'password.min' => 'The password must be at least 8 characters.',
         'website.url' => 'The website must be a valid URL.',
         'max_investment_amount.gte' => 'Max investment amount must be greater than or equal to min investment amount.',
+        'country_id.exists' => 'The selected country is invalid.',
+        'state_id.exists' => 'The selected state is invalid.',
+        'city_id.exists' => 'The selected city is invalid.',
     ];
 
-    public function saveInvestor() // Changed method name
+    public function saveInvestor()
     {
         $this->validate();
 
@@ -149,9 +193,8 @@ class Manage extends Component
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'role' => UserRole::Investor, // Explicitly set role
+            'role' => UserRole::Investor,
             'is_active' => $this->is_active,
-            // Additional user fields like date_of_birth, gender, slug would go here if needed for investors
         ];
 
         if (!empty($this->password)) {
@@ -179,16 +222,19 @@ class Manage extends Component
             'contact_person_name' => $this->contact_person_name,
             'contact_person_email' => $this->contact_person_email,
             'contact_person_phone' => $this->contact_person_phone,
+
+            // Updated Location fields
             'address' => $this->address,
-            'city' => $this->city,
-            'state' => $this->state,
             'zip_code' => $this->zip_code,
-            'country' => $this->country,
+            'country_id' => $this->country_id,
+            'state_id' => $this->state_id,
+            'city_id' => $this->city_id,
+
             'min_investment_amount' => $this->min_investment_amount,
             'max_investment_amount' => $this->max_investment_amount,
             'notes' => $this->notes,
             'is_approved' => $this->is_approved,
-            'is_active' => $this->is_active, // Mirror user's active status or manage independently
+            'is_active' => $this->is_active,
         ];
 
 
@@ -201,17 +247,17 @@ class Manage extends Component
 
             session()->flash('message', 'Investor Profile updated successfully!');
         } else {
-            $user = User::create($userData); // Create User first
-            $user->investorProfile()->create($investorProfileData); // Then create associated Investor Profile
+            $user = User::create($userData);
+            $user->investorProfile()->create($investorProfileData);
 
             session()->flash('message', 'Investor Profile created successfully!');
         }
 
-        return redirect()->route('investors.index'); // Changed route
+        return redirect()->route('investors.index');
     }
 
     public function render()
     {
-        return view('livewire.investors.manage'); // Changed view path
+        return view('livewire.investors.manage');
     }
 }

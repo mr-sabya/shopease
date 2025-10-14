@@ -132,6 +132,27 @@
                 </li>
 
 
+                <!-- Investment -->
+                <li class="nav-item {{ request()->routeIs('projects.*') ? 'active submenu' : '' }}">
+                    <a data-bs-toggle="collapse" href="#investmentManagement" class="collapsed" aria-expanded="{{ request()->routeIs('projects.*') ? 'true' : 'false' }}">
+                        <i class="fas fa-cubes"></i>
+                        <p>Investment</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->routeIs('projects.*') ? 'show' : '' }}" id="investmentManagement">
+                        <ul class="nav nav-collapse">
+                            <!-- projects -->
+                            <li class="{{ request()->routeIs('projects.index') ? 'active' : '' }}">
+                                <a href="{{ route('projects.index') }}" wire:navigate>
+                                    <span class="sub-item">Projects</span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
+
+
                 {{-- Add other management sections as needed --}}
 
                 <li class="nav-section">

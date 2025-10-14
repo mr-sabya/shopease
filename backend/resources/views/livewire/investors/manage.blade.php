@@ -18,60 +18,63 @@
             <form wire:submit.prevent="saveInvestor">
                 <h4>User Account Details</h4>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" wire:model.live="name">
-                            @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" wire:model.live="name">
+                                    @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" wire:model.defer="email">
+                                    @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password @unless($isEditing)<span class="text-danger">*</span>@endunless</label>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" wire:model.defer="password" autocomplete="new-password">
+                                    @unless($isEditing)<small class="form-text text-muted">Minimum 8 characters.</small>@endunless
+                                    @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="password_confirmation" class="form-label">Confirm Password @unless($isEditing)<span class="text-danger">*</span>@endunless</label>
+                                    <input type="password" class="form-control" id="password_confirmation" wire:model.defer="password_confirmation" autocomplete="new-password">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone</label>
+                                    <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" wire:model.defer="phone">
+                                    @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" wire:model.defer="email">
-                            @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <label for="avatar" class="form-label">User Avatar</label>
+                            <div class="image-preview">
+                                @if ($avatar)
+                                <img src="{{ $avatar->temporaryUrl() }}" class="upload-image">
+                                @elseif ($currentAvatar)
+                                <img src="{{ asset('storage/' . $currentAvatar) }}" alt="Current User Avatar" class="upload-image">
+                                @endif
+                            </div>
+                            <input type="file" class="form-control @error('avatar') is-invalid @enderror" id="avatar" wire:model.live="avatar">
+                            <small class="form-text text-muted">Max 1MB. Accepted formats: JPG, PNG, GIF. Recommended: square image.</small>
+                            @error('avatar') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password @unless($isEditing)<span class="text-danger">*</span>@endunless</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" wire:model.defer="password" autocomplete="new-password">
-                            @unless($isEditing)<small class="form-text text-muted">Minimum 8 characters.</small>@endunless
-                            @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">Confirm Password @unless($isEditing)<span class="text-danger">*</span>@endunless</label>
-                            <input type="password" class="form-control" id="password_confirmation" wire:model.defer="password_confirmation" autocomplete="new-password">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="avatar" class="form-label">User Avatar</label>
-                    <input type="file" class="form-control @error('avatar') is-invalid @enderror" id="avatar" wire:model.live="avatar">
-                    <small class="form-text text-muted">Max 1MB. Accepted formats: JPG, PNG, GIF. Recommended: square image.</small>
-                    @error('avatar') <div class="invalid-feedback">{{ $message }}</div> @enderror
-
-                    @if ($avatar)
-                    <p class="mt-2">New Avatar Preview:</p>
-                    <img src="{{ $avatar->temporaryUrl() }}" class="img-thumbnail rounded-circle" style="max-width: 100px; height: 100px; object-fit: cover;">
-                    @elseif ($currentAvatar)
-                    <p class="mt-2">Current Avatar:</p>
-                    <img src="{{ asset('storage/' . $currentAvatar) }}" alt="Current User Avatar" class="img-thumbnail rounded-circle" style="max-width: 100px; height: 100px; object-fit: cover;">
-                    @endif
-                </div>
-
-                <div class="mb-3">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" wire:model.defer="phone">
-                    @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                </div>
-
                 <hr class="my-4">
 
                 <h4>Investor Profile Details</h4>
@@ -125,45 +128,59 @@
                 </div>
 
                 <h5>Location Information</h5>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" wire:model.defer="address">
-                            @error('address') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="city" class="form-label">City</label>
-                            <input type="text" class="form-control @error('city') is-invalid @enderror" id="city" wire:model.defer="city">
-                            @error('city') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Street Address</label>
+                    <textarea class="form-control @error('address') is-invalid @enderror" id="address" wire:model.defer="address"></textarea>
+                    @error('address') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
+
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="mb-3">
-                            <label for="state" class="form-label">State</label>
-                            <input type="text" class="form-control @error('state') is-invalid @enderror" id="state" wire:model.defer="state">
-                            @error('state') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <label for="country_id" class="form-label">Country</label>
+                            <select class="form-select form-control @error('country_id') is-invalid @enderror" id="country_id" wire:model.live="country_id">
+                                <option value="">Select Country</option>
+                                @foreach($countries as $country)
+                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('country_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="state_id" class="form-label">State</label>
+                            <select class="form-select form-control @error('state_id') is-invalid @enderror" id="state_id" wire:model.live="state_id" @unless($country_id) disabled @endunless>
+                                <option value="">Select State</option>
+                                @foreach($states as $state)
+                                <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('state_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="city_id" class="form-label">City</label>
+                            <select class="form-select form-control @error('city_id') is-invalid @enderror" id="city_id" wire:model.defer="city_id" @unless($state_id) disabled @endunless>
+                                <option value="">Select City</option>
+                                @foreach($cities as $city)
+                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('city_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="mb-3">
                             <label for="zip_code" class="form-label">Zip Code</label>
                             <input type="text" class="form-control @error('zip_code') is-invalid @enderror" id="zip_code" wire:model.defer="zip_code">
                             @error('zip_code') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="country" class="form-label">Country</label>
-                            <input type="text" class="form-control @error('country') is-invalid @enderror" id="country" wire:model.defer="country">
-                            @error('country') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
                 </div>
+
+
 
                 <h5>Investment Preferences</h5>
                 <div class="row">
