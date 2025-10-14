@@ -18,11 +18,14 @@ class VendorProfile extends Model
         'shop_banner',
         'phone',
         'email',
-        'address',
-        'city',
-        'state',
-        'zip_code',
-        'country',
+        
+        // Removed 'address', 'city', 'state', 'zip_code', 'country'
+        'address', // Keep address as string for specific street info
+        'zip_code', // Keep zip_code as string as it's not a reference
+        'country_id', // Add foreign keys
+        'state_id',
+        'city_id',
+
         'bank_name',
         'bank_account_number',
         'bank_account_holder',

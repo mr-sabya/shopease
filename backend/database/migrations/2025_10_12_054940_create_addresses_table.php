@@ -19,10 +19,12 @@ return new class extends Migration
             $table->string('company_name')->nullable();
             $table->string('address_line_1');
             $table->string('address_line_2')->nullable();
-            $table->string('city');
-            $table->string('state');
             $table->string('zip_code');
-            $table->string('country');
+            
+            $table->foreignId('country_id')->constrained('countries')->onDelete('cascade'); // Foreign key to countries table
+            $table->foreignId('state_id')->constrained('states')->onDelete('cascade'); // Foreign key to states table
+            $table->foreignId('city_id')->constrained('cities')->onDelete('cascade'); // Foreign key to cities table
+            
             $table->string('phone')->nullable();
             $table->string('email')->nullable(); // Contact email for this address if different
             $table->enum('type', ['shipping', 'billing', 'both'])->default('shipping'); // Or can be just for labeling

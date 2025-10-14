@@ -23,17 +23,16 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'avatar',        // Added by add_info_to_users_table
-        'phone',         // Added by add_info_to_users_table
-        'address',       // Added by add_info_to_users_table
-        'city',          // Added by add_info_to_users_table
-        'state',         // Added by add_info_to_users_table
-        'zip_code',      // Added by add_info_to_users_table
-        'country',       // Added by add_info_to_users_table
-        'role',          // Added by add_info_to_users_table
-        'is_active',     // Added by add_info_to_users_table
-
-        // Uncomment these if you decided to add them in the migration
+        'avatar',
+        'phone',
+        // Removed 'address', 'city', 'state', 'zip_code', 'country'
+        'address', // Keep address as string for specific street info
+        'zip_code', // Keep zip_code as string as it's not a reference
+        'country_id', // Add foreign keys
+        'state_id',
+        'city_id',
+        'role',
+        'is_active',
         'date_of_birth',
         'gender',
         'slug',
@@ -79,6 +78,14 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have one investor profile if they are an investor.
+     */
+    public function investorProfile()
+    {
+        return $this->hasOne(InvestorProfile::class);
+    } // Assuming InvestorProfile model exists
+
+    /**
      * A user (vendor) can have many products.
      */
     public function products()
@@ -110,6 +117,22 @@ class User extends Authenticatable
         return $this->hasMany(Address::class); // Assuming Address model exists
     }
 
+    // Add relationships for dynamic location
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
     /**
      * A user can have many items in their wishlist.
      */
@@ -118,7 +141,7 @@ class User extends Authenticatable
         return $this->hasMany(Wishlist::class); // Assuming Wishlist model exists
     }
 
-    
+
 
     /*
     |--------------------------------------------------------------------------

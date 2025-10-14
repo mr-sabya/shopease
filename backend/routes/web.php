@@ -24,4 +24,27 @@ Route::middleware('auth:admin')->group(function () {
 
     // tags
     Route::get('/tags', [App\Http\Controllers\HomeController::class, 'tags'])->name('tags.index');
+
+    // customers
+    Route::get('/customers', [App\Http\Controllers\UserController::class, 'customers'])->name('users.customers.index');
+
+    // create customer
+    Route::get('/customers/create', [App\Http\Controllers\UserController::class, 'createCustomer'])->name('users.customers.create');
+
+    // edit customer
+    Route::get('/customers/{id}/edit', [App\Http\Controllers\UserController::class, 'editCustomer'])->name('users.customers.edit');
+
+    // investors
+    Route::get('/investors', [App\Http\Controllers\UserController::class, 'investors'])->name('users.investors.index');
+
+    // create investor
+    Route::get('/investors/create', [App\Http\Controllers\UserController::class, 'createInvestor'])->name('users.investors.create');
+
+    // edit investor
+    Route::get('/investors/{id}/edit', [App\Http\Controllers\UserController::class, 'editInvestor'])->name('users.investors.edit');
+
+    // locations
+    Route::get('/locations/countries', [App\Http\Controllers\LocationController::class, 'countries'])->name('locations.countries');
+    Route::get('/locations/states', [App\Http\Controllers\LocationController::class, 'states'])->name('locations.states');
+    Route::get('/locations/cities', [App\Http\Controllers\LocationController::class, 'cities'])->name('locations.cities');
 });

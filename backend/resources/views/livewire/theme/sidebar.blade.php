@@ -48,7 +48,7 @@
                     </a>
                     <div class="collapse {{ request()->routeIs('categories.*') || request()->routeIs('brands.*') || request()->routeIs('coupons.*') || request()->routeIs('tags.*') ? 'show' : '' }}" id="productsManagement">
                         <ul class="nav nav-collapse">
-                            <li class="{{ request()->routeIs('categories.*') ? 'active' : '' }}" >
+                            <li class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
                                 <a href="{{ route('categories.index') }}" wire:navigate>
                                     <span class="sub-item">Categories</span>
                                 </a>
@@ -71,10 +71,66 @@
                                     <span class="sub-item">Tags</span>
                                 </a>
                             </li>
-                            {{-- Add other product-related items here, e.g., Products, Attributes --}}
                         </ul>
                     </div>
                 </li>
+
+                <!-- users -->
+                <li class="nav-item {{ request()->routeIs('users.*') ? 'active submenu' : '' }}">
+                    <a data-bs-toggle="collapse" href="#userManagement" class="collapsed" aria-expanded="{{ request()->routeIs('users.*') ? 'true' : 'false' }}">
+                        <i class="fas fa-cubes"></i>
+                        <p>Users</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->routeIs('users.*') ? 'show' : '' }}" id="userManagement">
+                        <ul class="nav nav-collapse">
+                            <!-- customers -->
+                            <li class="{{ request()->routeIs('users.customers.*') ? 'active' : '' }}">
+                                <a href="{{ route('users.customers.index') }}" wire:navigate>
+                                    <span class="sub-item">Customers</span>
+                                </a>
+                            </li>
+                            <!-- investors -->
+                            <li class="{{ request()->routeIs('users.investors.*') ? 'active' : '' }}">
+                                <a href="{{ route('users.investors.index') }}" wire:navigate>
+                                    <span class="sub-item">Investors</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- locations -->
+                <li class="nav-item {{ request()->routeIs('locations.*') ? 'active submenu' : '' }}">
+                    <a data-bs-toggle="collapse" href="#locationManagement" class="collapsed" aria-expanded="{{ request()->routeIs('locations.*') ? 'true' : 'false' }}">
+                        <i class="fas fa-cubes"></i>
+                        <p>Locations</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->routeIs('locations.*') ? 'show' : '' }}" id="locationManagement">
+                        <ul class="nav nav-collapse">
+                            <!-- countries -->
+                            <li class="{{ request()->routeIs('locations.countries') ? 'active' : '' }}">
+                                <a href="{{ route('locations.countries') }}" wire:navigate>
+                                    <span class="sub-item">Countries</span>
+                                </a>
+                            </li>
+                            <!-- states -->
+                            <li class="{{ request()->routeIs('locations.states') ? 'active' : '' }}">
+                                <a href="{{ route('locations.states') }}" wire:navigate>
+                                    <span class="sub-item">States</span>
+                                </a>
+                            </li>
+                            <!-- cities -->
+                            <li class="{{ request()->routeIs('locations.cities') ? 'active' : '' }}">
+                                <a href="{{ route('locations.cities') }}" wire:navigate>
+                                    <span class="sub-item">Cities</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
 
                 {{-- Add other management sections as needed --}}
 
@@ -118,7 +174,7 @@
                 </li> --}}
                 {{-- ... other demo items ... --}}
 
-            
+
             </ul>
         </div>
     </div>

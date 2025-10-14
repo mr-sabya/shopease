@@ -16,10 +16,10 @@ class Address extends Model
         'company_name',
         'address_line_1',
         'address_line_2',
-        'city',
-        'state',
         'zip_code',
-        'country',
+        'country_id', // Add foreign keys
+        'state_id',
+        'city_id',
         'phone',
         'email',
         'type',

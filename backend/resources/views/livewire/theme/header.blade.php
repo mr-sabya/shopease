@@ -304,7 +304,7 @@
                         aria-expanded="false">
                         <div class="avatar-sm">
                             <img
-                                src="assets/img/profile.jpg"
+                                src="{{ url('assets/img/profile.jpg') }}"
                                 alt="..."
                                 class="avatar-img rounded-circle" />
                         </div>

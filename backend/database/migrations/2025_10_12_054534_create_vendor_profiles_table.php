@@ -22,11 +22,12 @@ return new class extends Migration
             $table->string('phone')->nullable(); // Vendor-specific contact, can be different from user's
             $table->string('email')->nullable(); // Vendor-specific contact
             $table->text('address')->nullable(); // Vendor's business address
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
             $table->string('zip_code')->nullable();
-            $table->string('country')->nullable();
 
+            $table->foreignId('country_id')->nullable()->constrained('countries')->onDelete('cascade'); // Foreign key to countries table
+            $table->foreignId('state_id')->nullable()->constrained('states')->onDelete('cascade'); // Foreign key to states table
+            $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('cascade'); // Foreign key to cities table
+            
             // Banking details for payouts
             $table->string('bank_name')->nullable();
             $table->string('bank_account_number')->nullable();
