@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str; // For slug generation
 use App\Enums\ProductType; // We'll create this enum next
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -19,6 +20,7 @@ class Product extends Model
         'slug',
         'short_description',
         'long_description',
+        'thumbnail_image_path',
         'type',
         'sku',
         'price',
@@ -194,10 +196,10 @@ class Product extends Model
     /**
      * Get the main thumbnail image URL for the product.
      */
-    public function getThumbnailUrlAttribute(): ?string
+    // Add this accessor for convenience
+    public function getThumbnailUrlAttribute()
     {
-        $thumbnail = $this->images()->where('is_thumbnail', true)->first();
-        return $thumbnail ? asset('storage/' . $thumbnail->image_path) : null;
+        return $this->thumbnail_image_path ? Storage::disk('public')->url($this->thumbnail_image_path) : null;
     }
 
     /**

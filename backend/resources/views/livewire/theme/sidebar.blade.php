@@ -48,6 +48,15 @@
                     </a>
                     <div class="collapse {{ request()->routeIs('categories.*') || request()->routeIs('brands.*') || request()->routeIs('coupons.*') || request()->routeIs('tags.*') ? 'show' : '' }}" id="productsManagement">
                         <ul class="nav nav-collapse">
+
+                            <!-- products -->
+                            <li class="{{ request()->routeIs('products.*') ? 'active' : '' }}">
+                                <a href="{{ route('products.index') }}" wire:navigate>
+                                    <span class="sub-item">Products</span>
+                                </a>
+                            </li>
+
+                            <!-- categories -->
                             <li class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
                                 <a href="{{ route('categories.index') }}" wire:navigate>
                                     <span class="sub-item">Categories</span>
@@ -69,6 +78,38 @@
                             <li class="{{ request()->routeIs('tags.*') ? 'active' : '' }}">
                                 <a href="{{ route('tags.index') }}" wire:navigate>
                                     <span class="sub-item">Tags</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- Attributes -->
+                <li class="nav-item {{ request()->routeIs('attribute.*') ? 'active submenu' : '' }}">
+                    <a data-bs-toggle="collapse" href="#attributeManagement" class="collapsed" aria-expanded="{{ request()->routeIs('attribute.*') ? 'true' : 'false' }}">
+                        <i class="fas fa-cubes"></i>
+                        <p>Attributes</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->routeIs('attribute.*') ? 'show' : '' }}" id="attributeManagement">
+                        <ul class="nav nav-collapse">
+                            <!-- attributes -->
+                            <li class="{{ request()->routeIs('attribute.attributes.index') ? 'active' : '' }}">
+                                <a href="{{ route('attribute.attributes.index') }}" wire:navigate>
+                                    <span class="sub-item">Attributes</span>
+                                </a>
+                            </li>
+                            <!-- attribute values -->
+                            <li class="{{ request()->routeIs('attribute.attribute-values.index') ? 'active' : '' }}">
+                                <a href="{{ route('attribute.attribute-values.index') }}" wire:navigate>
+                                    <span class="sub-item">Attribute Values</span>
+                                </a>
+                            </li>
+                            <!-- attribute sets -->
+                            <li class="{{ request()->routeIs('attribute.attribute-sets.index') ? 'active' : '' }}">
+                                <a href="{{ route('attribute.attribute-sets.index') }}" wire:navigate>
+                                    <span class="sub-item">Attribute Sets</span>
                                 </a>
                             </li>
                         </ul>
@@ -147,7 +188,7 @@
                                     <span class="sub-item">Projects</span>
                                 </a>
                             </li>
-                            
+
                         </ul>
                     </div>
                 </li>

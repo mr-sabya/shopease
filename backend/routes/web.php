@@ -50,4 +50,19 @@ Route::middleware('auth:admin')->group(function () {
 
     // projects
     Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects.index');
+
+    // attributes
+    Route::get('/attributes', [App\Http\Controllers\AttributeController::class, 'attributes'])->name('attribute.attributes.index');
+
+    // attribute values
+    Route::get('/attribute-values', [App\Http\Controllers\AttributeController::class, 'attributeValues'])->name('attribute.attribute-values.index');
+
+    // attribute sets
+    Route::get('/attribute-sets', [App\Http\Controllers\AttributeController::class, 'attributeSets'])->name('attribute.attribute-sets.index');
+
+
+    // products
+    Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
+    Route::get('/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('products.create');
+    Route::get('/products/{product}/edit', [App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit');
 });

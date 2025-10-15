@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Enums\AttributeDisplayType; // We'll create this enum
+use Illuminate\Database\Eloquent\Builder;
 
 class Attribute extends Model
 {
@@ -25,6 +26,14 @@ class Attribute extends Model
         'display_type' => AttributeDisplayType::class, // Cast to our custom enum
     ];
 
+
+    // Add this local scope
+    public function scopeActive(Builder $query): void
+    {
+        $query->where('is_active', true);
+    }
+
+    
     /**
      * The "booting" method of the model.
      * Automatically generate slug.

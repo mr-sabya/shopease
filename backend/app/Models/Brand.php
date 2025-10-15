@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str; // For slug generation
+use Illuminate\Database\Eloquent\Builder;
 
 class Brand extends Model
 {
@@ -21,6 +22,14 @@ class Brand extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+
+
+    // Add this local scope
+    public function scopeActive(Builder $query): void
+    {
+        $query->where('is_active', true);
+    }
 
     /**
      * The "booting" method of the model.

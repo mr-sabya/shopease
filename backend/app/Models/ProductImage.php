@@ -13,12 +13,10 @@ class ProductImage extends Model
         'product_id',
         'product_variant_id',
         'image_path',
-        'is_thumbnail',
         'sort_order',
     ];
 
     protected $casts = [
-        'is_thumbnail' => 'boolean',
         'sort_order' => 'integer',
     ];
 

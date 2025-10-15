@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str; // For slug generation
@@ -28,6 +29,7 @@ class Category extends Model
         'show_on_homepage' => 'boolean',
         'sort_order' => 'integer',
     ];
+
 
     /**
      * The "booting" method of the model.
@@ -94,9 +96,10 @@ class Category extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function scopeActive($query)
+     // Add this local scope
+    public function scopeActive(Builder $query): void
     {
-        return $query->where('is_active', true);
+        $query->where('is_active', true);
     }
 
     public function scopeFeaturedOnHomepage($query)

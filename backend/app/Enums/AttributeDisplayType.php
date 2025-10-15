@@ -5,26 +5,28 @@ namespace App\Enums;
 enum AttributeDisplayType: string
 {
     case Text = 'text';
-    case ColorSwatch = 'color_swatch';
-    case ImageSwatch = 'image_swatch';
-    case Dropdown = 'dropdown';
-    case Radio = 'radio';
+    case Color = 'color';
+    case Image = 'image';
+    case Select = 'select'; // For dropdowns, radio buttons etc.
     case Checkbox = 'checkbox';
+    case Number = 'number';
+    case Date = 'date';
+
+    public static function labels(): array
+    {
+        return [
+            self::Text->value => 'Text Input',
+            self::Color->value => 'Color Swatch',
+            self::Image->value => 'Image Upload',
+            self::Select->value => 'Dropdown / Select',
+            self::Checkbox->value => 'Checkbox',
+            self::Number->value => 'Number Input',
+            self::Date->value => 'Date Picker',
+        ];
+    }
 
     public function label(): string
     {
-        return match ($this) {
-            self::Text => 'Text Input',
-            self::ColorSwatch => 'Color Swatch',
-            self::ImageSwatch => 'Image Swatch',
-            self::Dropdown => 'Dropdown Select',
-            self::Radio => 'Radio Buttons',
-            self::Checkbox => 'Checkboxes',
-        };
-    }
-
-    public static function values(): array
-    {
-        return array_column(self::cases(), 'value');
+        return self::labels()[$this->value] ?? $this->value;
     }
 }
