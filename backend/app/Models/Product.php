@@ -14,7 +14,6 @@ class Product extends Model
 
     protected $fillable = [
         'vendor_id',
-        'category_id',
         'brand_id',
         'name',
         'slug',
@@ -95,11 +94,11 @@ class Product extends Model
     }
 
     /**
-     * Get the category that the product belongs to.
+     * A product can belong to many categories.
      */
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, 'category_product');
     }
 
     /**

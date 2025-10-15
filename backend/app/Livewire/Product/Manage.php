@@ -22,7 +22,7 @@ class Manage extends Component
 
     // Core Product Properties
     public $vendor_id; // Will likely be set from auth user in a real app
-    public $category_id;
+    public $selectedCategoryIds = []; // <--- ADD THIS
     public $brand_id;
     public $name;
     public $slug;
@@ -80,6 +80,9 @@ class Manage extends Component
             // For simplicity, vendor_id will be manually set or derived
             // In a real app, you'd get this from the authenticated vendor user
             $this->vendor_id = $this->product->vendor_id;
+            // Load existing categories
+            $this->selectedCategoryIds = $this->product->categories->pluck('id')->toArray(); // <--- ADD THIS
+
         } else {
             // We are creating a NEW product
             $this->product = new Product();
@@ -94,10 +97,11 @@ class Manage extends Component
     protected function rules()
     {
         $rules = [
-            'vendor_id' => ['required', 'exists:users,id', Rule::exists('users', 'id')->where(function ($query) {
+            'vendor_id' => ['nullable', 'exists:users,id', Rule::exists('users', 'id')->where(function ($query) {
                 $query->where('role', UserRole::Vendor->value);
             })], // <-- Add/update rule for vendor_id
-            'category_id' => ['required', 'exists:categories,id'],
+            'selectedCategoryIds' => ['required', 'array', 'min:1'], // <--- ADD THIS
+            'selectedCategoryIds.*' => ['exists:categories,id'], // Validate each ID in the array
             'brand_id' => ['nullable', 'exists:brands,id'],
             'name' => ['required', 'string', 'max:255'],
             'slug' => [
@@ -156,6 +160,9 @@ class Manage extends Component
     }
 
     protected $messages = [
+        'selectedCategoryIds.required' => 'At least one category must be selected.', // <--- ADD THIS
+        'selectedCategoryIds.array' => 'Categories must be an array.', // <--- ADD THIS
+        'selectedCategoryIds.min' => 'Please select at least one category.', // <--- ADD THIS
         'quantity.required_if' => 'The quantity field is required when stock is managed.',
         'new_digital_file.required' => 'A digital file is required for digital products.',
         'affiliate_url.required' => 'The affiliate URL is required for affiliate products.',
@@ -207,7 +214,6 @@ class Manage extends Component
 
         $this->product->fill([
             'vendor_id' => $this->vendor_id,
-            'category_id' => $this->category_id,
             'brand_id' => $this->brand_id,
             'name' => $this->name,
             'slug' => $this->slug ?? Str::slug($this->name), // Fallback if slug is null
@@ -234,6 +240,8 @@ class Manage extends Component
             // SEO fields will be handled by a separate component
         ])->save();
 
+        // Sync categories after saving the product
+        $this->product->categories()->sync($this->selectedCategoryIds); // <--- ADD THIS
 
         session()->flash('message', 'Product ' . ($this->product->wasRecentlyCreated ? 'created' : 'updated') . ' successfully!');
 

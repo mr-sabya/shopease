@@ -75,11 +75,11 @@ class Category extends Model
     }
 
     /**
-     * Get all products belonging to this category.
+     * A category can have many products.
      */
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Product::class, 'category_product');
     }
 
     /**
@@ -96,7 +96,7 @@ class Category extends Model
     |--------------------------------------------------------------------------
     */
 
-     // Add this local scope
+    // Add this local scope
     public function scopeActive(Builder $query): void
     {
         $query->where('is_active', true);

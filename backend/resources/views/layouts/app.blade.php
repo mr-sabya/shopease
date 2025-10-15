@@ -37,6 +37,10 @@
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/plugins.min.css') }}" />
+
+    <!-- Include stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="{{ asset('assets/css/kaiadmin.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" />
     @livewireStyles
@@ -56,7 +60,7 @@
 
             <div class="container">
                 <div class="page-inner">
-                    
+
 
                     @yield('content')
 
@@ -94,6 +98,9 @@
     <!-- jQuery Vector Maps -->
     <script data-navigate-once src="{{ asset('assets/js/plugin/jsvectormap/jsvectormap.min.js') }}"></script>
     <script data-navigate-once src="{{ asset('assets/js/plugin/jsvectormap/world.js') }}"></script>
+
+    <!-- Include the Quill library -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 
     <!-- Sweet Alert -->
     <script data-navigate-once src="{{ asset('assets/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
