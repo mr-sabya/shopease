@@ -11,7 +11,7 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">{{ $isEditing ? 'Edit Coupon Details' : 'New Coupon Details' }}</h5>
-            <a href="{{ route('coupons.index') }}" class="btn btn-secondary" wire:navigate>
+            <a href="{{ route('product.coupons.index') }}" class="btn btn-secondary" wire:navigate>
                 <i class="fas fa-arrow-left"></i> Back to Coupons
             </a>
         </div>
@@ -102,7 +102,7 @@
                 {{-- Removed the Applicability section entirely --}}
 
                 <div class="d-flex justify-content-end gap-2 mt-4">
-                    <a href="{{ route('coupons.index') }}" class="btn btn-secondary">Cancel</a>
+                    <a href="{{ route('product.coupons.index') }}" wire:navigate class="btn btn-secondary">Cancel</a>
                     <button type="submit" class="btn btn-primary">
                         <span wire:loading wire:target="saveCoupon" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                         {{ $isEditing ? 'Update Coupon' : 'Create Coupon' }}

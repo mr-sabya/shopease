@@ -18,7 +18,7 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Coupons List</h5>
-            <a href="{{ route('coupons.create') }}" class="btn btn-primary" wire:navigate>
+            <a href="{{ route('product.coupons.create') }}" class="btn btn-primary" wire:navigate>
                 <i class="fas fa-plus"></i> Add New Coupon
             </a>
         </div>
@@ -108,9 +108,11 @@
                                         Actions
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $coupon->id }}">
-                                        <li><a class="dropdown-item" href="{{ route('coupons.edit', $coupon->id) }}">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('coupons.edit', $coupon->id) }}">
                                                 <i class="fas fa-edit me-2"></i>Edit Coupon
-                                            </a></li>
+                                            </a>
+                                        </li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>

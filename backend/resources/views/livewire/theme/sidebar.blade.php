@@ -40,43 +40,43 @@
                     <h4 class="text-section">Management</h4>
                 </li>
 
-                <li class="nav-item {{ request()->routeIs('categories.*') || request()->routeIs('brands.*') || request()->routeIs('coupons.*') || request()->routeIs('tags.*') ? 'active submenu' : '' }}">
-                    <a data-bs-toggle="collapse" href="#productsManagement" class="collapsed" aria-expanded="{{ request()->routeIs('categories.*') || request()->routeIs('brands.*') || request()->routeIs('coupons.*') || request()->routeIs('tags.*') ? 'true' : 'false' }}">
+                <li class="nav-item {{ request()->routeIs('product.*') ? 'active submenu' : '' }}">
+                    <a data-bs-toggle="collapse" href="#productsManagement" class="collapsed" aria-expanded="{{ request()->routeIs('product.*') ? 'true' : 'false' }}">
                         <i class="fas fa-cubes"></i>
                         <p>Product Catalog</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->routeIs('categories.*') || request()->routeIs('brands.*') || request()->routeIs('coupons.*') || request()->routeIs('tags.*') ? 'show' : '' }}" id="productsManagement">
+                    <div class="collapse {{ request()->routeIs('product.*') ? 'show' : '' }}" id="productsManagement">
                         <ul class="nav nav-collapse">
 
                             <!-- products -->
-                            <li class="{{ request()->routeIs('products.*') ? 'active' : '' }}">
-                                <a href="{{ route('products.index') }}" wire:navigate>
+                            <li class="{{ request()->routeIs('product.products.*') ? 'active' : '' }}">
+                                <a href="{{ route('product.products.index') }}" wire:navigate>
                                     <span class="sub-item">Products</span>
                                 </a>
                             </li>
 
                             <!-- categories -->
-                            <li class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
-                                <a href="{{ route('categories.index') }}" wire:navigate>
+                            <li class="{{ request()->routeIs('product.categories.*') ? 'active' : '' }}">
+                                <a href="{{ route('product.categories.index') }}" wire:navigate>
                                     <span class="sub-item">Categories</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->routeIs('brands.*') ? 'active' : '' }}">
-                                <a href="{{ route('brands.index') }}" wire:navigate>
+                            <li class="{{ request()->routeIs('product.brands.*') ? 'active' : '' }}">
+                                <a href="{{ route('product.brands.index') }}" wire:navigate>
                                     <span class="sub-item">Brands</span>
                                 </a>
                             </li>
                             <!-- coupons -->
-                            <li class="{{ request()->routeIs('coupons.*') ? 'active' : '' }}">
-                                <a href="{{ route('coupons.index') }}" wire:navigate>
+                            <li class="{{ request()->routeIs('product.coupons.*') ? 'active' : '' }}">
+                                <a href="{{ route('product.coupons.index') }}" wire:navigate>
                                     <span class="sub-item">Coupons</span>
                                 </a>
                             </li>
 
                             <!-- tags -->
-                            <li class="{{ request()->routeIs('tags.*') ? 'active' : '' }}">
-                                <a href="{{ route('tags.index') }}" wire:navigate>
+                            <li class="{{ request()->routeIs('product.tags.*') ? 'active' : '' }}">
+                                <a href="{{ route('product.tags.index') }}" wire:navigate>
                                     <span class="sub-item">Tags</span>
                                 </a>
                             </li>
@@ -186,6 +186,27 @@
                             <li class="{{ request()->routeIs('projects.index') ? 'active' : '' }}">
                                 <a href="{{ route('projects.index') }}" wire:navigate>
                                     <span class="sub-item">Projects</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+
+
+                <!-- Investment -->
+                <li class="nav-item {{ request()->routeIs('website.*') ? 'active submenu' : '' }}">
+                    <a data-bs-toggle="collapse" href="#websiteManagement" class="collapsed" aria-expanded="{{ request()->routeIs('website.*') ? 'true' : 'false' }}">
+                        <i class="fas fa-cubes"></i>
+                        <p>Website</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->routeIs('website.*') ? 'show' : '' }}" id="websiteManagement">
+                        <ul class="nav nav-collapse">
+                            <!-- banner -->
+                            <li class="{{ request()->routeIs('website.banner.index') ? 'active' : '' }}">
+                                <a href="{{ route('website.banner.index') }}" wire:navigate>
+                                    <span class="sub-item">Banner</span>
                                 </a>
                             </li>
 

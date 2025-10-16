@@ -18,12 +18,12 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Products List</h5>
-            <a href="{{ route('products.create') }}" class="btn btn-primary" wire:navigate>
+            <a href="{{ route('product.products.create') }}" class="btn btn-primary" wire:navigate>
                 <i class="fas fa-plus"></i> Add New Product
             </a>
         </div>
         <div class="card-body">
-            <div class="row align-items-center mb-3 g-2">
+            <div class="row mb-3 g-2" style=" --bs-gutter-x: 10px;">
                 <div class="col-md-4 col-lg-3">
                     <input type="text" class="form-control" placeholder="Search products..." wire:model.live.debounce.300ms="search">
                 </div>

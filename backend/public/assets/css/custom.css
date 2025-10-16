@@ -1,4 +1,4 @@
-.image-preview{
+.image-preview {
     width: 100%;
     height: 200px;
     border: 2px dashed #dddddd;
@@ -12,7 +12,36 @@
     padding: 10px;
 }
 
-.image-preview .upload-image{
+.image-preview .upload-image {
     width: auto;
     height: 100%;
+}
+
+
+
+/* Custom styles for responsiveness and alignment */
+.product-type-group {
+    /* This ensures the label and select wrap if space is too tight on small screens */
+    /* If you *absolutely* want them on one line even if they get tiny, remove flex-wrap */
+    /* But 'flex-wrap' is generally better for usability on very small screens */
+    flex-wrap: wrap;
+    width: 100%;
+    /* Take full width on small screens for better wrapping */
+    max-width: 400px;
+    /* Optional: limit overall width of the control group */
+}
+
+/* On medium screens and up, adjust width and ensure no wrapping */
+@media (min-width: 768px) {
+    .product-type-group {
+        flex-wrap: nowrap;
+        /* Keep label and select on one line */
+        width: auto;
+        /* Allow content to dictate width, or set a specific max-width */
+    }
+
+    .product-type-group .form-label {
+        min-width: 100px;
+        /* Give the label a consistent width if desired */
+    }
 }

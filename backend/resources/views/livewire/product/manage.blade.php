@@ -14,7 +14,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Create New Product</h5>
+                        <h5 class="m-0">Create New Product</h5>
                     </div>
                     <div class="card-body">
 
@@ -75,7 +75,7 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Product Image & Status</h5>
+                        <h5 class="m-0">Product Image & Status</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -124,7 +124,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Detailed Description</h5>
+                        <h5 class="m-0">Detailed Description</h5>
                     </div>
                     <div class="card-body">
                         <div class="col-md-12">
@@ -141,7 +141,7 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Categories</h5>
+                        <h5 class="m-0">Categories</h5>
                     </div>
                     <div class="card-body">
                         <div class="col-md-12">
@@ -169,7 +169,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h5>Pricing, Inventory & Shipping</h5>
+                <h5 class="m-0">Pricing, Inventory & Shipping</h5>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -226,21 +226,28 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h5>Product Type & Inventory</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <!-- Product Type -->
-                            <div class="col-md-12 mb-3">
-                                <label for="type" class="form-label">Product Type <span class="text-danger">*</span></label>
-                                <select class="form-select form-control @error('type') is-invalid @enderror" id="type" wire:model.live="type">
+                    <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                        <!-- Title -->
+                        <h5 class="mb-0 mb-md-0 me-md-4">Product Type & Inventory</h5>
+
+                        <!-- Product Type Control Group -->
+                        <div class="d-flex align-items-center flex-wrap flex-md-nowrap product-type-group ms-md-auto">
+                            <label for="type" class="form-label mb-0 me-2 text-nowrap">
+                                Product Type <span class="text-danger">*</span>
+                            </label>
+                            <div class="flex-grow-1" style="min-width: 150px;"> <!-- Added min-width to prevent squishing -->
+                                <select class="form-select @error('type') is-invalid @enderror" id="type" wire:model.live="type">
                                     @foreach ($productTypes as $productType)
                                     <option value="{{ $productType->value }}">{{ Str::title($productType->value) }}</option>
                                     @endforeach
                                 </select>
-                                @error('type') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+
 
 
                             @if ($type === \App\Enums\ProductType::Normal->value && $is_manage_stock)

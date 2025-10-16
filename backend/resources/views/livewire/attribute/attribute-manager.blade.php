@@ -152,13 +152,13 @@
 
                         <div class="mb-3 form-check form-switch d-flex align-items-center">
                             <input class="form-check-input @error('is_filterable') is-invalid @enderror" type="checkbox" id="is_filterable" wire:model.defer="is_filterable">
-                            <label class="form-check-label ms-2" for="is_filterable">Is Filterable</label>
+                            <label class="form-check-label ms-2 mb-0" for="is_filterable">Is Filterable</label>
                             @error('is_filterable') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="mb-3 form-check form-switch d-flex align-items-center">
                             <input class="form-check-input @error('is_active') is-invalid @enderror" type="checkbox" id="is_active" wire:model.defer="is_active">
-                            <label class="form-check-label ms-2" for="is_active">Is Active</label>
+                            <label class="form-check-label ms-2 mb-0" for="is_active">Is Active</label>
                             @error('is_active') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>

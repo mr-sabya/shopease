@@ -36,7 +36,7 @@ class Manage extends Component
         'value.max' => 'For percentage coupons, the value cannot exceed 100%.',
     ];
 
-    public function mount(?Coupon $coupon = null)
+    public function mount($couponId = null)
     {
         // Initialize the base rules here
         $this->rules = [
@@ -53,6 +53,8 @@ class Manage extends Component
             'is_active' => 'boolean',
             // Removed selectedProducts, selectedCategories, selectedUsers validation
         ];
+
+        $coupon = $couponId ? Coupon::find($couponId) : new Coupon();
 
         // Populate coupon type options for the dropdown
         $this->couponTypeOptions = collect(CouponType::cases())->mapWithKeys(fn($type) => [$type->value => $type->label()])->toArray();

@@ -8,61 +8,78 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     // Settings
-    Route::get('/settings', [App\Http\Controllers\HomeController::class, 'settings'])->name('settings.index');
+    Route::get('/settings', [App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
 
-    // categories
-    Route::get('/categories', [App\Http\Controllers\HomeController::class, 'categories'])->name('categories.index');
-    Route::get('/categories/create', [App\Http\Controllers\HomeController::class, 'addCategory'])->name('categories.create');
-    Route::get('/categories/{category}/edit', [App\Http\Controllers\HomeController::class, 'editCategory'])->name('categories.edit');
+    Route::name('product.')->group(function () {
 
-    // brands
-    Route::get('/brands', [App\Http\Controllers\HomeController::class, 'brands'])->name('brands.index');
+        // categories
+        Route::prefix('categories')->name('categories.')->group(function () {
+            Route::get('/', [App\Http\Controllers\CategoryController::class, 'index'])->name('index');
+            Route::get('/create', [App\Http\Controllers\CategoryController::class, 'create'])->name('create');
+            Route::get('/{category}/edit', [App\Http\Controllers\CategoryController::class, 'edit'])->name('edit');
+        });
 
-    // coupons
-    Route::get('/coupons', [App\Http\Controllers\HomeController::class, 'coupons'])->name('coupons.index');
-    Route::get('/coupons/create', [App\Http\Controllers\HomeController::class, 'createCoupon'])->name('coupons.create');
+        // brands
+        Route::get('/brands', [App\Http\Controllers\HomeController::class, 'brands'])->name('brands.index');
 
-    // tags
-    Route::get('/tags', [App\Http\Controllers\HomeController::class, 'tags'])->name('tags.index');
+        // coupons
+        Route::prefix('coupons')->name('coupons.')->group(function () {
+            Route::get('/', [App\Http\Controllers\CouponController::class, 'index'])->name('index');
+            Route::get('/create', [App\Http\Controllers\CouponController::class, 'create'])->name('create');
+            Route::get('/{coupon}/edit', [App\Http\Controllers\CouponController::class, 'edit'])->name('edit');
+        });
 
-    // customers
-    Route::get('/customers', [App\Http\Controllers\UserController::class, 'customers'])->name('users.customers.index');
+        // tags
+        Route::get('/tags', [App\Http\Controllers\HomeController::class, 'tags'])->name('tags.index');
 
-    // create customer
-    Route::get('/customers/create', [App\Http\Controllers\UserController::class, 'createCustomer'])->name('users.customers.create');
+        // products
+        Route::prefix('products')->name('products.')->group(function () {
+            Route::get('/', [App\Http\Controllers\ProductController::class, 'index'])->name('index');
+            Route::get('/create', [App\Http\Controllers\ProductController::class, 'create'])->name('create');
+            Route::get('/{product}/edit', [App\Http\Controllers\ProductController::class, 'edit'])->name('edit');
+        });
+    });
 
-    // edit customer
-    Route::get('/customers/{id}/edit', [App\Http\Controllers\UserController::class, 'editCustomer'])->name('users.customers.edit');
 
-    // investors
-    Route::get('/investors', [App\Http\Controllers\UserController::class, 'investors'])->name('users.investors.index');
+    Route::name('users.')->group(function () {
+        // customers
+        Route::prefix('customers')->name('customers.')->group(function () {
+            Route::get('/', [App\Http\Controllers\UserController::class, 'customers'])->name('index');
+            Route::get('/create', [App\Http\Controllers\UserController::class, 'createCustomer'])->name('create');
+            Route::get('/{id}/edit', [App\Http\Controllers\UserController::class, 'editCustomer'])->name('edit');
+        });
 
-    // create investor
-    Route::get('/investors/create', [App\Http\Controllers\UserController::class, 'createInvestor'])->name('users.investors.create');
 
-    // edit investor
-    Route::get('/investors/{id}/edit', [App\Http\Controllers\UserController::class, 'editInvestor'])->name('users.investors.edit');
+        // investors
+        Route::prefix('investors')->name('investors.')->group(function () {
+            Route::get('/', [App\Http\Controllers\UserController::class, 'investors'])->name('index');
+            Route::get('/create', [App\Http\Controllers\UserController::class, 'createInvestor'])->name('create');
+            Route::get('/{id}/edit', [App\Http\Controllers\UserController::class, 'editInvestor'])->name('edit');
+        });
+    });
+
+
 
     // locations
-    Route::get('/locations/countries', [App\Http\Controllers\LocationController::class, 'countries'])->name('locations.countries');
-    Route::get('/locations/states', [App\Http\Controllers\LocationController::class, 'states'])->name('locations.states');
-    Route::get('/locations/cities', [App\Http\Controllers\LocationController::class, 'cities'])->name('locations.cities');
+    Route::prefix('locations')->name('locations.')->group(function () {
+        Route::get('/countries', [App\Http\Controllers\LocationController::class, 'countries'])->name('countries');
+        Route::get('/states', [App\Http\Controllers\LocationController::class, 'states'])->name('states');
+        Route::get('/cities', [App\Http\Controllers\LocationController::class, 'cities'])->name('cities');
+    });
 
     // projects
     Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects.index');
 
     // attributes
-    Route::get('/attributes', [App\Http\Controllers\AttributeController::class, 'attributes'])->name('attribute.attributes.index');
+    Route::prefix('attributes')->name('attribute.')->group(function () {
+        Route::get('/', [App\Http\Controllers\AttributeController::class, 'attributes'])->name('attributes.index');
+        Route::get('/attribute-values', [App\Http\Controllers\AttributeController::class, 'attributeValues'])->name('attribute-values.index');
+        Route::get('/attribute-sets', [App\Http\Controllers\AttributeController::class, 'attributeSets'])->name('attribute-sets.index');
+    });
 
-    // attribute values
-    Route::get('/attribute-values', [App\Http\Controllers\AttributeController::class, 'attributeValues'])->name('attribute.attribute-values.index');
-
-    // attribute sets
-    Route::get('/attribute-sets', [App\Http\Controllers\AttributeController::class, 'attributeSets'])->name('attribute.attribute-sets.index');
-
-
-    // products
-    Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
-    Route::get('/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('products.create');
-    Route::get('/products/{product}/edit', [App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit');
+    // website
+    Route::prefix('website')->name('website.')->group(function () {
+        // banners
+        Route::get('/banners', [App\Http\Controllers\WebsiteController::class, 'banners'])->name('banner.index');
+    });
 });

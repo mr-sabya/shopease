@@ -18,7 +18,7 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Category List</h5>
-            <a href="{{ route('categories.create') }}" wire:navigate class="btn btn-primary">
+            <a href="{{ route('product.categories.create') }}" wire:navigate class="btn btn-primary">
                 <i class="fas fa-plus"></i> Add New Category
             </a>
         </div>

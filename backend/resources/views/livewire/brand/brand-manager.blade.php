@@ -141,22 +141,21 @@
 
                         <div class="mb-3">
                             <label for="logo" class="form-label">Brand Logo</label>
+                            <div class="image-preview">
+                                @if ($logo)
+                                <img src="{{ $logo->temporaryUrl() }}" class="upload-image">
+                                @elseif ($currentLogo)
+                                <img src="{{ asset('storage/' . $currentLogo) }}" alt="Current Brand Logo" class="upload-image">
+                                @endif
+                            </div>
                             <input type="file" class="form-control @error('logo') is-invalid @enderror" id="logo" wire:model.live="logo">
                             <small class="form-text text-muted">Max 1MB. Accepted formats: JPG, PNG, GIF.</small>
                             @error('logo') <div class="invalid-feedback">{{ $message }}</div> @enderror
-
-                            @if ($logo)
-                            <p class="mt-2">New Logo Preview:</p>
-                            <img src="{{ $logo->temporaryUrl() }}" class="img-thumbnail" style="max-width: 150px;">
-                            @elseif ($currentLogo)
-                            <p class="mt-2">Current Logo:</p>
-                            <img src="{{ asset('storage/' . $currentLogo) }}" alt="Current Brand Logo" class="img-thumbnail" style="max-width: 150px;">
-                            @endif
                         </div>
 
                         <div class="mb-3 form-check form-switch d-flex align-items-center">
                             <input class="form-check-input @error('is_active') is-invalid @enderror" type="checkbox" id="is_active" wire:model.defer="is_active">
-                            <label class="form-check-label ms-2" for="is_active">Is Active</label>
+                            <label class="form-check-label ms-2 mb-0" for="is_active">Is Active</label>
                             @error('is_active') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
