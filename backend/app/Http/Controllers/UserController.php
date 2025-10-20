@@ -41,4 +41,23 @@ class UserController extends Controller
     {
         return view('users.investors.edit', ['userId' => $id]);
     }
+
+
+    // vendors
+    public function vendors()
+    {
+        return view('users.investors.index');
+    }
+
+    // create vendors
+    public function createVendors()
+    {
+        return view('users.vendors.create');
+    }
+
+    // edit vendors
+    public function editVendors($id)
+    {
+        return view('users.vendors.edit', ['userId' => $id]);
+    }
 }

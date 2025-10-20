@@ -56,6 +56,14 @@ Route::middleware('auth:admin')->group(function () {
             Route::get('/create', [App\Http\Controllers\UserController::class, 'createInvestor'])->name('create');
             Route::get('/{id}/edit', [App\Http\Controllers\UserController::class, 'editInvestor'])->name('edit');
         });
+
+
+        // vendors
+        Route::prefix('vendors')->name('vendors.')->group(function () {
+            Route::get('/', [App\Http\Controllers\UserController::class, 'vendors'])->name('index');
+            Route::get('/create', [App\Http\Controllers\UserController::class, 'createVendors'])->name('create');
+            Route::get('/{id}/edit', [App\Http\Controllers\UserController::class, 'editVendors'])->name('edit');
+        });
     });
 
 
@@ -67,8 +75,11 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/cities', [App\Http\Controllers\LocationController::class, 'cities'])->name('cities');
     });
 
-    // projects
-    Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects.index');
+    // investment
+    Route::prefix('investment')->name('investment.')->group(function () {
+        Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects.index');
+        Route::get('/investments', [App\Http\Controllers\InvestmentController::class, 'index'])->name('investments.index');
+    });
 
     // attributes
     Route::prefix('attributes')->name('attribute.')->group(function () {
@@ -81,5 +92,15 @@ Route::middleware('auth:admin')->group(function () {
     Route::prefix('website')->name('website.')->group(function () {
         // banners
         Route::get('/banners', [App\Http\Controllers\WebsiteController::class, 'banners'])->name('banner.index');
+    });
+
+    // orders
+    Route::get('/orders', [App\Http\Controllers\OrderController::class, 'index'])->name('order.index');
+
+    // deals
+    Route::prefix('deals')->name('deal.')->group(function () {
+        Route::get('/', [App\Http\Controllers\DealController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\DealController::class, 'create'])->name('create');
+        Route::get('/{id}/edit', [App\Http\Controllers\DealController::class, 'edit'])->name('edit');
     });
 });

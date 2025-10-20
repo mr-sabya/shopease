@@ -28,7 +28,7 @@
             <ul class="nav nav-secondary">
                 <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
                     <a href="{{ route('home') }}" wire:navigate>
-                        <i class="fas fa-home"></i>
+                        <i class="fas fa-chart-line"></i> <!-- Changed from fa-home to fa-chart-line for dashboard -->
                         <p>Dashboard</p>
                     </a>
                 </li>
@@ -42,7 +42,7 @@
 
                 <li class="nav-item {{ request()->routeIs('product.*') ? 'active submenu' : '' }}">
                     <a data-bs-toggle="collapse" href="#productsManagement" class="collapsed" aria-expanded="{{ request()->routeIs('product.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-cubes"></i>
+                        <i class="fas fa-boxes"></i> <!-- Changed from fa-cubes to fa-boxes for Product Catalog -->
                         <p>Product Catalog</p>
                         <span class="caret"></span>
                     </a>
@@ -62,6 +62,7 @@
                                     <span class="sub-item">Categories</span>
                                 </a>
                             </li>
+                            <!-- brands -->
                             <li class="{{ request()->routeIs('product.brands.*') ? 'active' : '' }}">
                                 <a href="{{ route('product.brands.index') }}" wire:navigate>
                                     <span class="sub-item">Brands</span>
@@ -88,7 +89,7 @@
                 <!-- Attributes -->
                 <li class="nav-item {{ request()->routeIs('attribute.*') ? 'active submenu' : '' }}">
                     <a data-bs-toggle="collapse" href="#attributeManagement" class="collapsed" aria-expanded="{{ request()->routeIs('attribute.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-cubes"></i>
+                        <i class="fas fa-tags"></i> <!-- Changed from fa-cubes to fa-tags for Attributes -->
                         <p>Attributes</p>
                         <span class="caret"></span>
                     </a>
@@ -116,10 +117,23 @@
                     </div>
                 </li>
 
+                <li class="nav-item {{ request()->routeIs('order.index') ? 'active' : '' }}">
+                    <a href="{{ route('order.index') }}" wire:navigate>
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Orders</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('deal.index') ? 'active' : '' }}">
+                    <a href="{{ route('deal.index') }}" wire:navigate>
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Deals</p>
+                    </a>
+                </li>
+
                 <!-- users -->
                 <li class="nav-item {{ request()->routeIs('users.*') ? 'active submenu' : '' }}">
                     <a data-bs-toggle="collapse" href="#userManagement" class="collapsed" aria-expanded="{{ request()->routeIs('users.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-cubes"></i>
+                        <i class="fas fa-users"></i> <!-- Changed from fa-cubes to fa-users for Users -->
                         <p>Users</p>
                         <span class="caret"></span>
                     </a>
@@ -137,6 +151,12 @@
                                     <span class="sub-item">Investors</span>
                                 </a>
                             </li>
+                            <!-- vendors -->
+                            <li class="{{ request()->routeIs('users.vendors.*') ? 'active' : '' }}">
+                                <a href="{{ route('users.vendors.index') }}" wire:navigate>
+                                    <span class="sub-item">Vendors</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -144,7 +164,7 @@
                 <!-- locations -->
                 <li class="nav-item {{ request()->routeIs('locations.*') ? 'active submenu' : '' }}">
                     <a data-bs-toggle="collapse" href="#locationManagement" class="collapsed" aria-expanded="{{ request()->routeIs('locations.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-cubes"></i>
+                        <i class="fas fa-globe-americas"></i> <!-- Changed from fa-cubes to fa-globe-americas for Locations -->
                         <p>Locations</p>
                         <span class="caret"></span>
                     </a>
@@ -174,18 +194,24 @@
 
 
                 <!-- Investment -->
-                <li class="nav-item {{ request()->routeIs('projects.*') ? 'active submenu' : '' }}">
-                    <a data-bs-toggle="collapse" href="#investmentManagement" class="collapsed" aria-expanded="{{ request()->routeIs('projects.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-cubes"></i>
+                <li class="nav-item {{ request()->routeIs('investment.*') ? 'active submenu' : '' }}">
+                    <a data-bs-toggle="collapse" href="#investmentManagement" class="collapsed" aria-expanded="{{ request()->routeIs('investment.*') ? 'true' : 'false' }}">
+                        <i class="fas fa-hand-holding-usd"></i> <!-- Changed from fa-cubes to fa-hand-holding-usd for Investment -->
                         <p>Investment</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->routeIs('projects.*') ? 'show' : '' }}" id="investmentManagement">
+                    <div class="collapse {{ request()->routeIs('investment.*') ? 'show' : '' }}" id="investmentManagement">
                         <ul class="nav nav-collapse">
                             <!-- projects -->
-                            <li class="{{ request()->routeIs('projects.index') ? 'active' : '' }}">
-                                <a href="{{ route('projects.index') }}" wire:navigate>
+                            <li class="{{ request()->routeIs('investment.projects.index') ? 'active' : '' }}">
+                                <a href="{{ route('investment.projects.index') }}" wire:navigate>
                                     <span class="sub-item">Projects</span>
+                                </a>
+                            </li>
+                            <!-- projects -->
+                            <li class="{{ request()->routeIs('investment.investments.index') ? 'active' : '' }}">
+                                <a href="{{ route('investment.investments.index') }}" wire:navigate>
+                                    <span class="sub-item">Investments</span>
                                 </a>
                             </li>
 
@@ -194,10 +220,10 @@
                 </li>
 
 
-                <!-- Investment -->
+                <!-- Website -->
                 <li class="nav-item {{ request()->routeIs('website.*') ? 'active submenu' : '' }}">
                     <a data-bs-toggle="collapse" href="#websiteManagement" class="collapsed" aria-expanded="{{ request()->routeIs('website.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-cubes"></i>
+                        <i class="fas fa-globe"></i> <!-- Changed from fa-cubes to fa-globe for Website -->
                         <p>Website</p>
                         <span class="caret"></span>
                     </a>
@@ -230,32 +256,6 @@
                         <p>Settings</p>
                     </a>
                 </li>
-
-                {{-- Original "Components" and other demo links are removed/commented --}}
-                {{-- as they are not part of your application's current routes. --}}
-                {{-- You can re-add them if you have actual routes for these pages. --}}
-
-                {{-- <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#base">
-                        <i class="fas fa-layer-group"></i>
-                        <p>Base</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="base">
-                        <ul class="nav nav-collapse">
-                            <li><a href="components/avatars.html"><span class="sub-item">Avatars</span></a></li>
-                            <li><a href="components/buttons.html"><span class="sub-item">Buttons</span></a></li>
-                            <li><a href="components/gridsystem.html"><span class="sub-item">Grid System</span></a></li>
-                            <li><a href="components/panels.html"><span class="sub-item">Panels</span></a></li>
-                            <li><a href="components/notifications.html"><span class="sub-item">Notifications</span></a></li>
-                            <li><a href="components/sweetalert.html"><span class="sub-item">Sweet Alert</span></a></li>
-                            <li><a href="components/font-awesome-icons.html"><span class="sub-item">Font Awesome Icons</span></a></li>
-                            <li><a href="components/simple-line-icons.html"><span class="sub-item">Simple Line Icons</span></a></li>
-                            <li><a href="components/typography.html"><span class="sub-item">Typography</span></a></li>
-                        </ul>
-                    </div>
-                </li> --}}
-                {{-- ... other demo items ... --}}
 
 
             </ul>

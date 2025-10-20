@@ -165,6 +165,14 @@ class Product extends Model
         return $this->hasMany(Download::class);
     }
 
+
+    /**
+     * The deals that this product is part of.
+     */
+    public function deals()
+    {
+        return $this->belongsToMany(Deal::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | Scopes
@@ -192,14 +200,7 @@ class Product extends Model
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * Get the main thumbnail image URL for the product.
-     */
-    // Add this accessor for convenience
-    public function getThumbnailUrlAttribute()
-    {
-        return $this->thumbnail_image_path ? Storage::disk('public')->url($this->thumbnail_image_path) : null;
-    }
+
 
     /**
      * Check if the product is a normal product.
@@ -242,5 +243,46 @@ class Product extends Model
             return $this->variants()->sum('quantity');
         }
         return $this->quantity;
+    }
+
+
+    /**
+     * Get the main thumbnail image URL for the product.
+     */
+    // Add this accessor for convenience
+    public function getThumbnailUrlAttribute()
+    {
+        return $this->thumbnail_image_path ? Storage::disk('public')->url($this->thumbnail_image_path) : null;
+    }
+
+
+    /**
+     * Get the current effective price of the product, considering active deals.
+     * This is a more advanced accessor.
+     */
+    public function getEffectivePriceAttribute()
+    {
+        // Eager load active deals if not already loaded
+        if (!$this->relationLoaded('deals')) {
+            $this->load(['deals' => function ($query) {
+                $query->active();
+            }]);
+        }
+
+        // Find the most impactful active deal for this product
+        $activeDeal = $this->deals->filter(fn($deal) => $deal->is_active)
+            ->sortByDesc('value') // Prioritize higher discounts
+            ->first();
+
+        if ($activeDeal) {
+            $originalPrice = $this->price;
+            if ($activeDeal->type === 'percentage') {
+                return $originalPrice * (1 - ($activeDeal->value / 100));
+            } elseif ($activeDeal->type === 'fixed') {
+                return max(0, $originalPrice - $activeDeal->value); // Price shouldn't go below 0
+            }
+        }
+
+        return $this->price; // No active deal, return original price
     }
 }

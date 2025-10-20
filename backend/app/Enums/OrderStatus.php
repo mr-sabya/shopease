@@ -9,7 +9,7 @@ enum OrderStatus: string
     case Shipped = 'shipped';
     case Delivered = 'delivered';
     case Cancelled = 'cancelled';
-    case Returned = 'returned';
+    case Refunded = 'refunded'; // Could be tied to PaymentStatus Refunded, but for overall order state
 
     public function label(): string
     {
@@ -19,7 +19,19 @@ enum OrderStatus: string
             self::Shipped => 'Shipped',
             self::Delivered => 'Delivered',
             self::Cancelled => 'Cancelled',
-            self::Returned => 'Returned',
+            self::Refunded => 'Refunded',
+        };
+    }
+
+    public function badgeColor(): string
+    {
+        return match ($this) {
+            self::Pending => 'bg-warning',
+            self::Processing => 'bg-info',
+            self::Shipped => 'bg-primary',
+            self::Delivered => 'bg-success',
+            self::Cancelled => 'bg-danger',
+            self::Refunded => 'bg-secondary',
         };
     }
 
