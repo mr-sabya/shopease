@@ -103,4 +103,11 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/create', [App\Http\Controllers\DealController::class, 'create'])->name('create');
         Route::get('/{id}/edit', [App\Http\Controllers\DealController::class, 'edit'])->name('edit');
     });
+    
+    // collection
+    Route::prefix('collection')->name('collection.')->group(function () {
+        Route::get('/', [App\Http\Controllers\CollectionController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\CollectionController::class, 'create'])->name('create');
+        Route::get('/{id}/edit', [App\Http\Controllers\CollectionController::class, 'edit'])->name('edit');
+    });
 });

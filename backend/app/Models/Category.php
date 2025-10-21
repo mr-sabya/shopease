@@ -90,6 +90,13 @@ class Category extends Model
         return $this->belongsToMany(Coupon::class); // Requires a pivot table: category_coupon
     }
 
+
+    // A category can have many collections
+    public function collections()
+    {
+        return $this->hasMany(Collection::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Scopes

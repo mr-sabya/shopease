@@ -129,6 +129,12 @@
                         <p>Deals</p>
                     </a>
                 </li>
+                <li class="nav-item {{ request()->routeIs('collection.index') ? 'active' : '' }}">
+                    <a href="{{ route('collection.index') }}" wire:navigate>
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Collections</p>
+                    </a>
+                </li>
 
                 <!-- users -->
                 <li class="nav-item {{ request()->routeIs('users.*') ? 'active submenu' : '' }}">
