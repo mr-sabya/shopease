@@ -103,11 +103,26 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/create', [App\Http\Controllers\DealController::class, 'create'])->name('create');
         Route::get('/{id}/edit', [App\Http\Controllers\DealController::class, 'edit'])->name('edit');
     });
-    
+
     // collection
     Route::prefix('collection')->name('collection.')->group(function () {
         Route::get('/', [App\Http\Controllers\CollectionController::class, 'index'])->name('index');
         Route::get('/create', [App\Http\Controllers\CollectionController::class, 'create'])->name('create');
         Route::get('/{id}/edit', [App\Http\Controllers\CollectionController::class, 'edit'])->name('edit');
+    });
+
+
+    // blog
+    Route::prefix('blog')->name('blog.')->group(function () {
+        // category
+        Route::get('/category', [App\Http\Controllers\Blog\CategoryController::class, 'index'])->name('category.index');
+
+        // tag
+        Route::get('/tag', [App\Http\Controllers\Blog\TagController::class, 'index'])->name('tag.index');
+        
+        // blog post
+        Route::get('/blog-post', [App\Http\Controllers\Blog\BlogPostController::class, 'index'])->name('post.index');
+        Route::get('/blog-post/create', [App\Http\Controllers\Blog\BlogPostController::class, 'create'])->name('post.create');
+        Route::get('/blog-post/{id}/edit', [App\Http\Controllers\Blog\BlogPostController::class, 'edit'])->name('post.edit');
     });
 });

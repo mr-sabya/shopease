@@ -167,6 +167,41 @@
                     </div>
                 </li>
 
+
+                <!-- blog -->
+                <li class="nav-item {{ request()->routeIs('blog.*') ? 'active submenu' : '' }}">
+                    <a data-bs-toggle="collapse" href="#blogManagement" class="collapsed" aria-expanded="{{ request()->routeIs('blog.*') ? 'true' : 'false' }}">
+                        <i class="fas fa-users"></i> <!-- Changed from fa-cubes to fa-users for Users -->
+                        <p>Blog</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->routeIs('blog.*') ? 'show' : '' }}" id="blogManagement">
+                        <ul class="nav nav-collapse">
+                            <!-- category -->
+                            <li class="{{ request()->routeIs('blog.category.index') ? 'active' : '' }}">
+                                <a href="{{ route('blog.category.index') }}" wire:navigate>
+                                    <span class="sub-item">Category</span>
+                                </a>
+                            </li>
+
+                            <!-- tag -->
+                            <li class="{{ request()->routeIs('blog.tag.index') ? 'active' : '' }}">
+                                <a href="{{ route('blog.tag.index') }}" wire:navigate>
+                                    <span class="sub-item">Tag</span>
+                                </a>
+                            </li>
+
+                            <!-- post.index -->
+                            <li class="{{ request()->routeIs('blog.post.index') ? 'active' : '' }}">
+                                <a href="{{ route('blog.post.index') }}" wire:navigate>
+                                    <span class="sub-item">Post</span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
+
                 <!-- locations -->
                 <li class="nav-item {{ request()->routeIs('locations.*') ? 'active submenu' : '' }}">
                     <a data-bs-toggle="collapse" href="#locationManagement" class="collapsed" aria-expanded="{{ request()->routeIs('locations.*') ? 'true' : 'false' }}">
