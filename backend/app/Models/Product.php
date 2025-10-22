@@ -41,6 +41,9 @@ class Product extends Model
         'download_expiry_days',
     ];
 
+    // Add this line
+    protected $appends = ['thumbnail_url', 'current_stock', 'effective_price']; // Make sure all accessors you want included by default are here
+
     protected $casts = [
         'price' => 'decimal:2',
         'compare_at_price' => 'decimal:2',
